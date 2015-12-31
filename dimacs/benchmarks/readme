@@ -1,0 +1,33 @@
+
+The ftp directory  pub/netflow/benchmarks contains two subdirectories 
+for benchmark tests of your local computing environment. 
+
+fortran/   Contains programs and inputs for a test of a Fortran program. 
+           In that directory, see either  readme.unix  or  readme.notunix 
+           depending upon whether your system can support Unix tools 
+           such as pipes, awk, and shell programs.
+
+c/         Contains programs and inputs for a test of a C program. 
+           In that directory, see either  readme.unix  or readme.notunix
+           depending upon whether your system can support Unix tools. 
+
+If you can, run both the Fortran and C tests on your local system.  The 
+goal is to gather timing information for a wide variety of architectures.
+
+Given the variety of architectures that participants are using, it is
+difficult to anticipate what will be possible and interesting.  Send a
+note to  netflow@dimacs.rutgers.edu  if one of the following occurs:
+
+1) Some input files are too large to be transferred to your system.
+2) Some input files are too small to give interesting runtimes. 
+3) Some other problem prevents you from performing the tests. 
+
+Enjoy!
+Cathy McGeoch
+Challenge Coordiinator
+mcgeoch@dimacs.rutgers.edu
+
+
+
+
+

@@ -1,0 +1,20 @@
+This directory contains programs that generate networks and graphs.
+Most are in the DIMACS format. 
+
+This Directory Contains:
+
+universal.c  : A very portable random number generator, as C-language
+               function calls.  Read the in-line code. 
+
+matching/  : A directory of generators for matching problems. 
+           
+net-simple/  : A directory containing some very simple-minded generators,
+                for checking compatiblity with DIMACS format.  These
+                generators are not much good for testing code. 
+
+network/   : A directory containing generators for network problems. 
+
+            
+
+
+

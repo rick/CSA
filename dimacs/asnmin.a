@@ -1,0 +1,38 @@
+#This program converts a file in .asn format to one in .min 
+#format by the following method:
+# --source nodes have supply 1
+# --sink nodes have demand -1
+# --arcs lower bounds are 0, arc capacities 1
+# --arc costs are copied over 
+
+BEGIN {firstarc = 1; 
+       print "c  Transformation of asn to min format" }  
+
+#make first line or flag error 
+# (NR == 1) && ($1 == "asn") { nodes = $2; arcs = $3;
+(NR == 1) && ($1 == "p") && ($2 == "asn") { nodes = $3; arcs = $4;
+					    print "p", "min" , nodes, arcs 
+					  }
+# (NR == 1) && ($1 != "asn") { print "ERROR WRONG INPUT FORMAT"}
+(NR == 1) && (($1 != "p") || ($2 != "asn")) { print "ERROR WRONG INPUT FORMAT"}
+
+#copy over comments 
+$1 == "c" {print $0}
+
+#make sources and remember which they are
+$1 == "n" { print "n", "\t", $2, "\t", 1 ; 
+	   remember[$2] = 1; 
+	}
+
+#make destination nodes
+(($1 == "a") && (firstarc==1)) { firstarc = 0;  
+		for (i = 1; i<= nodes; i++) {
+			if (remember[i] != 1)  print "n", "\t", i, "\t", -1 ; 
+	        }
+	}
+
+#make arcs
+$1 == "a"	{print "a", "\t", $2, "\t", $3, "\t", 0, "\t", 1, "\t", $4}
+
+
+

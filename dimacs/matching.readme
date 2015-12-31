@@ -1,0 +1,45 @@
+
+This directory contains instance generators for matching problems.
+
+asnmat.a    : Awk program to convert DIMACS .asn format to
+              .edge format.
+
+clusters.c  : Generates points within a circle which are clustered 
+		according to some input parameters.  Documentation is
+		in code.  To compile: cc clusters.c -lm 
+
+dcube.c    : Generates points uniform within a d-dimensional cube. 
+             Documentation is in the code.  
+
+hardcard.f  : Generates (nongeometric) graphs which Gabow has shown 
+		will be hard for Edmond's cardinality matching algorithm.
+ 		Provided by R. B. Mattingly.  This is a Fortran program. 
+                To compile:  f77 hardcard.f
+
+neighbor.c  : Takes a graph in .geom format and a command line argument
+              k.  Produces a graph in .edge format.  Vertex i is has an
+              edge to vertices [i-k, i-1].  See the code for more 
+              documentation. 
+              NOTE:  a version which includes the p line and which is 
+                 slightly more robust was installed July 26. 
+              
+random.c    : Generates a random undirected graph with m edges.  Edge
+              weights are uniformly distributed within a specified range.
+              See the code for further documentation. 
+              NOTE: the original version contains a bug.  The fixed 
+              version was installed July 22. 
+
+t.f        :  Generates a sequence of K one-connected triangles 
+              in  .edge format. 
+              Written in Fortran.  These graphs tend to generate 
+               a lot of blossoms.
+              Contributed by N. Ritchey and B. Mattingly
+
+tt.f       :  Generates a sequence of K tri-connected triangles
+              in .edge format.
+              Written in Fortran.
+              Contributed by N. Ritchey and B. Mattingly
+
+fractals/   : Subdirectory containing generators of fractal-like instances,
+               in .geom format.
+

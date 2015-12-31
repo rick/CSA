@@ -1,0 +1,59 @@
+This directory contains programs that generate networks and graphs.
+Most are in the DIMACS format. For the others, format translators 
+are or will soon be available.  Generators suitable for multiple 
+problems are in this directory---problem-specific generators appear
+in subdirectories.  
+
+This Directory Contains:
+
+ac.c      : Generates a fully dense acyclic network in .max format. 
+             A C version of waissi/ac.pas.  Submitted by J. Setubal
+
+asnmin.a  : Awk language converter from DIMACS assignment format to 
+            DIMACS min-cost flow format
+
+assign.c  : Generates a random bipartite graph in .asn format. 
+assign.old.c:  Aan early version with fewer features. 
+
+capt/     : A directory containing files for the CAPT network generator
+            of Bland and Jensen.  Networks are  in .min format. 
+
+ccd/      : A directory containing a shell script for generating all 
+              maxflow instances for the DIMACS Core Experiments.  
+
+genrmf/   : A directory containing files for the RMFGEN network generator.
+             Networks are in .max format. 
+
+geomasn.a : Awk language converter from DIMACS .geom format to a bipartite
+            network in .asn format.  Read the file for more information. 
+
+gridgen/  : Contains a c program for generating the grid-network
+              of Lee and Orlin.
+
+grid-on-torus/ : A direcotry of files to generate capacitated transporation
+             instances laid out on a grid-on-torus.  Files are in .min format.
+
+gridgraph/ : A directory of files to generate min-cost problems on a grid. 
+             files are in .min format. 
+
+maxmin.a  : Awk language converter from DIMACS max-flow format to 
+            DIMACS min-cost flow format.
+
+mesh/     : Files for a generator of max-flow problems on a mesh. 
+            Instances are in .max format. 
+
+netgen/    : A directory containing a well-known NETGEN program.
+              Also contains a C-version which produces 
+	      instances in DIMACS .min format. 
+
+tr.c       :  Generates at transportation network. A C version of 
+               waissi/tr.pas.  Contributed by J. Setubal.  
+
+twocost.a  :  An awk langague program.  Takes  networks in .asn
+              format: arc costs > 50 are converted to 10^8, and
+              arc costs <=5 are converted to 10^2. 
+
+waissi/    : A directory containing several  generators for max-flow
+               problems.  Pascal and Turbo-Pascal versions available.
+
+washington/ : A directory containing code for several max-flow generators.  

@@ -1,0 +1,34 @@
+#This awk program converts files in the DIMACS .geom format into
+#bipartite instances in the .asn format.   The first N/2 vertices
+#are red, and the last N/2 are blue (assumes n is even). 
+#The program generates all red-to-blue edges, with edge costs corresponding
+#to Euclidean distance (using only the  first two dimensions), truncated
+#to an integer. 
+
+# C. McGeoch, July 1991
+
+$1 == "p"  { nodes = $3;
+             count = 0;  
+             reds =  nodes/2;
+             print "p" , "asn", nodes, reds*reds;
+             print "c  Converted from geometric instance "
+             print "c  using geomasn.a   " 
+
+             for (i = 1; i<= reds; i++) { print "n", i } 
+           }
+
+$1 == "v" {count++;
+            if (count <= reds) {    # save the red location 
+  		rx[count] = $2;
+                ry[count] = $3; 
+            }
+            else {                  #generate red-blue arcs 
+                 bx = $2; by = $3; 
+                 for (i=1; i<=reds; i++)  
+                      {  d1 = rx[i] - bx;
+                         d2 = ry[i] - by; 
+                         dist = sqrt( d1*d1 + d2*d2 ); 
+       	                 printf "a  %d  %d %d\n", i, count, dist ;
+                       }
+                   } 
+          }

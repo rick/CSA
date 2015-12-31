@@ -1,0 +1,9 @@
+# This awk program accepts a .asn file with costs in the range 
+# 1.. 100.  It converts the graph to one with all costs either 100 or 
+# 10^8.  
+
+# BEGIN {printf "c  Converted to two-cost graph"}
+$1 != "a"                  {print $0}
+($1 == "a")  && ($4 > 50 ) { print $1, $2, $3, 100000000}
+($1 == "a") && ($4 <= 50 ) { print $1, $2, $3, 100 }
+             

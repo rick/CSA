@@ -1,0 +1,9 @@
+The program p5pgmtoasn.c reads a "P5" format portable grey map image
+from its standard input and writes an assignment problem in DIMACS
+format on its standard output. On many systems, you can get
+information on this file format by typing "man pgm".
+
+For information about how assignment problems are generated from
+pictures, see the technical report pub/goldberg/stan-cs-93-1481.ps.Z
+(compressed postscript), available by anonymous ftp from
+theory.stanford.edu.

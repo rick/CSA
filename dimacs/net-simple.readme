@@ -1,0 +1,25 @@
+This directory contains very simple generators for network problems. 
+Also contains translators from .asn and .max files to .min files.  
+THESE GENERATORS PRODUCED INSTANCES WHICH ARE SYNTACTICALLY CORRECT
+(FOR DIMACS CHALLENGE FORMAT) BUT WHICH ARE PRETTY MUCH UNINTERESTING 
+OTHERWISE. 
+
+genasn.c   Generate an instance for assignment.  See comments in 
+	   program for command format.  C source. 
+
+genmin.c   Generate an instance for min-cost flow.  See comments in 
+	   code for instructions.  C source. 
+
+genmax.c   Generate an instance for max flow.  See comments in 
+	   code for instructions. C source. 
+
+makefile   The make file. 
+
+test.*     Sample input files.  The suffix .min .max .asn denotes
+           inputs for min-cost flow, max flow, and assignment.  
+
+asnmin.a   An awk program to convert assignment instances, in
+	   .asn format, to min-cost flow instances  in .min format.  
+
+maxmin.a   An awk program toconver max-flow instances, in .max format,
+	   to min-cost flow instances in .min format. 
