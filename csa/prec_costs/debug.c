@@ -40,7 +40,7 @@ if (v->matched)
   }
 else
   (void) printf("unmatched\n");
-(void) printf("\t%d arcs priced out, %d arcs priced in\n",
+(void) printf("\t%ld arcs priced out, %ld arcs priced in\n",
 	      v->first - v->priced_out, (v+1)->priced_out - v->first);
 if ((v+1)->priced_out - v->first > 0)
   {
@@ -93,13 +93,13 @@ else
 for (b = v->priced_out; b != v->back_arcs; b++)
   {
   lhs_id = b->tail - head_lhs_node + 1;
-  (void) printf("Arc (%ld, %ld) back stored cost %lg (priced out)\n",
+  (void) printf("Arc (%d, %d) back stored cost %lg (priced out)\n",
 		lhs_id, rhs_id, b->c);
   }
 for (; b != (v+1)->priced_out; b++)
   {
   lhs_id = b->tail - head_lhs_node + 1;
-  (void) printf("Arc (%ld, %ld) back stored cost %lg (priced in) cmp cost %lg\n",
+  (void) printf("Arc (%d, %d) back stored cost %lg (priced in) cmp cost %lg\n",
 		lhs_id, rhs_id, b->c, b->c - v->p);
   }
 #endif
