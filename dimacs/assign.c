@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <stdlib.h>
 
 
 /*-----------------------------------------------------------*/
@@ -36,7 +37,7 @@
 /*    seed    X   : specifies X a random seed; default use timer */ 
 /*---------------------------------------------------------------*/
 
-#define Assert( cond , msg ) if ( ! (cond) ) {printf("msg\n"); exit(); } ; 
+#define Assert( cond , msg ) if ( ! (cond) ) {printf("msg\n"); exit(1); } ; 
 #define MAXNODES 200000
 #define DEFCOST 100000
 
