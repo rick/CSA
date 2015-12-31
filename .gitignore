@@ -1,3 +1,5 @@
+*.swp
+*~
 csa/prec_costs/csa_s
 csa/prec_costs/csa_q
 csa/prec_costs/csa_q_pr
