@@ -38,7 +38,7 @@
 /*---------------------------------------------------------------*/
 
 #define Assert( cond , msg ) if ( ! (cond) ) {printf("msg\n"); exit(1); } ; 
-#define MAXNODES 200000
+#define MAXNODES 10000000
 #define DEFCOST 100000
 
 #define TRUE 1
