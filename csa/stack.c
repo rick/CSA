@@ -33,13 +33,13 @@ s = (stack) malloc(sizeof(struct stack_st));
 
 if (s == NULL)
   {
-  (void) printf(nomem_msg);
+  (void) printf("%s", nomem_msg);
   exit(9);
   }
 s->bottom = (char **) malloc(size * sizeof(char *));
 if (s->bottom == NULL)
   {
-  (void) printf(nomem_msg);
+  (void) printf("%s", nomem_msg);
   exit(9);
   }
 s->top = s->bottom;
