@@ -49,6 +49,8 @@ int rand_seed;        /*boolean flag*/
 string cmdtable[10];
 int cmdtable_size; 
 
+long lprand(); /* declaration before use sets implicit return type  */
+
 /*  The uniform RNG below is highly portable.                       */ 
 /*  It will give IDENTICAL sequences of random numbers for any      */
 /*  architecture with at least 30-bit integers, regardless of the   */
