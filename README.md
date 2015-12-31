@@ -19,4 +19,4 @@ This is a mirror of CSA version 1.2. This tooling is a solver for weighted bipar
 
 #### Copyright
 
-Copyright notice(s) can be found in the file [COPYRIGHT](COPYRIGHT).
+Copyright notice(s) can be found in the file [COPYRIGHT](COPYRIGHT.md).
