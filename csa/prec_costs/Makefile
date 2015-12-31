@@ -32,7 +32,7 @@ TARGETS=csa_s csa_s_qm csa_q csa_q_qm csa_s_pr csa_q_pr csa_s_pr_qm csa_s_pu csa
 
 all:	$(TARGETS)
 clean:  $(BASEFILES)
-	rm $(TARGETS)
+	rm -f $(TARGETS)
 
 interesting:	csa_s csa_s_qm csa_q csa_q_qm csa_s_pu csa_s_pu_qm csa_s_tpo_qm csa_s_spo_qm csa_s_spo csa_s_tpo csa_s_rtpo csa_s_rtpo_qm csa_s_rspo csa_s_rspo_qm
 
