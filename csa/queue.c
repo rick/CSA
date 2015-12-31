@@ -15,13 +15,13 @@ void	exit();
 q = (queue) malloc(sizeof(struct queue_st));
 if (q == NULL)
   {
-  (void) printf(nomem_msg);
+  (void) printf("%s", nomem_msg);
   exit(9);
   }
 q->storage = (char **) malloc(sizeof(lhs_ptr) * (size + 1));
 if (q->storage == NULL)
   {
-  (void) printf(nomem_msg);
+  (void) printf("%s", nomem_msg);
   exit(9);
   }
 q->end = q->storage + size;
