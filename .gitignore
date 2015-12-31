@@ -70,3 +70,5 @@ csa/round_costs/csa_s_tpo
 csa/round_costs/csa_s_tpo_pr
 csa/round_costs/csa_s_tpo_pr_pu
 csa/round_costs/csa_s_tpo_pu
+dimacs/dcube
+dimacs/universal
