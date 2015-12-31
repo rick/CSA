@@ -166,35 +166,33 @@ int index;
 int i; 
 
   while (scanf("%s", cmd ) != EOF) {
-    fgets(buf, sizeof(buf), stdin);
-    index = lookup(cmd);
-    switch(index) {
-
-    case 0:  { printf("%s: Unknown command. Ignored.\n", cmd);
-	       break;
-	     }
-    case 1:  {sscanf( buf , "%d", &nodes); 
-	      Assert( 1<=nodes && nodes<=MAXNODES , Nodes out of range. );
-              Assert( nodes<= MAXNODES , Recompile with higher MAXNODES. ); 
-	      break;
-	    }
-    case 2: { sscanf( buf, "%ld", &seed);
-	       rand_seed  = FALSE;
-	       break;
-	    }
-    case 3: { sscanf( buf, "%d", &dimension);
-	      break; 
-	    }
-    case 4: { sscanf( buf, "%d", &maxloc);
-              Assert( 1 <= maxloc, Maxloc  must be positive. ); 
-              Assert( maxloc <= PRANDMAX,  Too many bits--recompile.);
-              break;
-            }
-
-    }/*switch*/
+    if (fgets(buf, sizeof(buf), stdin) != NULL) {
+      index = lookup(cmd);
+      switch(index) {
+  
+      case 0:  { printf("%s: Unknown command. Ignored.\n", cmd);
+  	       break;
+  	     }
+      case 1:  {sscanf( buf , "%d", &nodes); 
+  	      Assert( 1<=nodes && nodes<=MAXNODES , Nodes out of range. );
+                Assert( nodes<= MAXNODES , Recompile with higher MAXNODES. ); 
+  	      break;
+  	    }
+      case 2: { sscanf( buf, "%ld", &seed);
+  	       rand_seed  = FALSE;
+  	       break;
+  	    }
+      case 3: { sscanf( buf, "%d", &dimension);
+  	      break; 
+  	    }
+      case 4: { sscanf( buf, "%d", &maxloc);
+                Assert( 1 <= maxloc, Maxloc  must be positive. ); 
+                Assert( maxloc <= PRANDMAX,  Too many bits--recompile.);
+                break;
+              }
+      }/*switch*/
+    } /* fgets != NULL */
   }/*while*/
-
-
 }/*get_input*/
 
 /*---------------------------Report parameters  */
