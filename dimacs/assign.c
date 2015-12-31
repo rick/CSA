@@ -154,7 +154,7 @@ int i;
               Assert( nodes<= MAXNODES , Recompile with higher MAXNODES. ); 
 	      break;
 	    }
-    case 2: { sscanf( buf, "%d", &seed);
+    case 2: { sscanf( buf, "%ld", &seed);
 	       rand_seed  = FALSE;
 	       break;
 	    }
@@ -200,7 +200,7 @@ void report_params()
   printf("c sources %d \n", sources);
   printf("c out-degree %d \n", degree); 
   if (rand_seed == TRUE) printf("c random seed\n");
-  else printf("c seed %d\n", seed);
+  else printf("c seed %ld\n", seed);
 }
 
 /*----------------Hash Table Routines ----------------*/
