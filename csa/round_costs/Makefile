@@ -25,7 +25,7 @@ TARGETS=csa_s_tpo csa_q_tpo csa_s_rtpo csa_q_rtpo csa_s_spo csa_q_spo csa_s_rspo
 
 
 all:	$(TARGETS)
-clean:	$(TARGETS)
+clean:	$(BASEFILES)
 	rm -f $(TARGETS)
 
 links:		main.c parse.c stack.c timer.c list.c queue.c csa_defs.h
