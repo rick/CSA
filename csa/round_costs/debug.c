@@ -37,7 +37,7 @@ if (v->matched)
   }
 else
   (void) printf("unmatched\n");
-(void) printf("\t%d arcs priced out, %d arcs priced in\n",
+(void) printf("\t%ld arcs priced out, %ld arcs priced in\n",
 	      v->first - v->priced_out, (v+1)->priced_out - v->first);
 if ((v+1)->priced_out - v->first > 0)
   {

@@ -72,7 +72,7 @@ extern	int	abs();
 
 /* skip initial comments */
 do
-  if (gets(in_line) == NULL)
+  if (fgets(in_line, sizeof(in_line), stdin) == NULL)
     parse_error(BADINPUT1);
 while (in_line[0] == 'c');
 
@@ -86,7 +86,7 @@ if ((sscanf(in_line, "%c%3s%d%d", &line_type, prob_type, &n, &m) != 4) ||
 arc_count = 0;
 lhs_n = 0;
 
-while (gets(in_line) != NULL)
+while (fgets(in_line, sizeof(in_line), stdin) != NULL)
   switch (in_line[0])
     {
     case 'c': break;
