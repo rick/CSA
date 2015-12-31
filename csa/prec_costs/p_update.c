@@ -1,4 +1,5 @@
 #include	<math.h>
+#include        <stdio.h>
 #include	"csa_types.h"
 #include	"csa_defs.h"
 
