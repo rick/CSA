@@ -19,6 +19,8 @@ int a;
 int b; 
 long arr[55];  
 
+long lprand();
+
 /*----RNG Initializer------------*/
 /* Call once before using lprand */ 
 

@@ -1,5 +1,8 @@
-#include<stdio.h>
-#include<math.h>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
 
 /*-----------------------------------------------------------*/
 /*  Generates instances for assignment according to DIMACS   */ 
@@ -34,7 +37,7 @@
 /*    seed    X   : specifies X a random seed; default use timer */ 
 /*---------------------------------------------------------------*/
 
-#define Assert( cond , msg ) if ( ! (cond) ) {printf("msg\n"); exit(); } ; 
+#define Assert( cond , msg ) if ( ! (cond) ) {printf("msg\n"); exit(1); } ; 
 #define MAXNODES 200000
 #define DEFCOST 100000
 
@@ -120,7 +123,7 @@ double rand_d()  /* returns doubles from [0, 1.0) */
 /*------------------Command input routines  */ 
 
 /* Lookup command in table */
-int lookup(cmd)
+int lookup(const char *cmd)
 {
  int i;
  int stop;
@@ -139,46 +142,46 @@ int index;
 int i; 
 
   while (scanf("%s", cmd ) != EOF) {
-    fgets(buf, sizeof(buf), stdin);
-    index = lookup(cmd);
-    switch(index) {
-
-    case 0:  { printf("%s: Unknown command. Ignored.\n", cmd);
-	       break;
-	     }
-    case 1:  {sscanf( buf , "%d", &nodes); 
-	      Assert( 1<=nodes && nodes<=MAXNODES , Nodes out of range. );
-              Assert( nodes<= MAXNODES , Recompile with higher MAXNODES. ); 
-	      break;
-	    }
-    case 2: { sscanf( buf, "%d", &seed);
-	       rand_seed  = FALSE;
-	       break;
-	    }
-    case 3: { sscanf( buf, "%d", &sources);
-	      Assert( 1<=sources && sources <= nodes, Sources out of range. );
-	      break; 
-	    }
-    case 4: { sscanf( buf, "%d", &max_cost);
-              Assert( 1 <= max_cost, Maxcost must be positive. ); 
-              break;
-            }
-    case 5: { complete = TRUE; 
-              deglimit = FALSE; 
-              break;
-            }
-    case 6: { sscanf( buf, "%d", &degree);
-              Assert( 1 <= degree , Degree must be positive.);
-              Assert( degree <= nodes - sources , Degree out of range.); 
-              Assert( complete == FALSE , Either complete or degree-not both.) 
-              deglimit = TRUE;
-              break;
-            }              
-     case 7: { random_costs = FALSE;
+    if (fgets(buf, sizeof(buf), stdin) != NULL) {
+      index = lookup(cmd);
+      switch(index) {
+  
+      case 0:  { printf("%s: Unknown command. Ignored.\n", cmd);
+  	       break;
+  	     }
+      case 1:  {sscanf( buf , "%d", &nodes); 
+  	      Assert( 1<=nodes && nodes<=MAXNODES , Nodes out of range. );
+                Assert( nodes<= MAXNODES , Recompile with higher MAXNODES. ); 
+  	      break;
+  	    }
+      case 2: { sscanf( buf, "%ld", &seed);
+  	       rand_seed  = FALSE;
+  	       break;
+  	    }
+      case 3: { sscanf( buf, "%d", &sources);
+  	      Assert( 1<=sources && sources <= nodes, Sources out of range. );
+  	      break; 
+  	    }
+      case 4: { sscanf( buf, "%d", &max_cost);
+                Assert( 1 <= max_cost, Maxcost must be positive. ); 
                 break;
-            }     
-
-    }/*switch*/
+              }
+      case 5: { complete = TRUE; 
+                deglimit = FALSE; 
+                break;
+              }
+      case 6: { sscanf( buf, "%d", &degree);
+                Assert( 1 <= degree , Degree must be positive.);
+                Assert( degree <= nodes - sources , Degree out of range.); 
+                Assert( complete == FALSE , Either complete or degree-not both.) 
+                deglimit = TRUE;
+                break;
+              }              
+       case 7: { random_costs = FALSE;
+                  break;
+              }
+      }/*switch*/
+    } /* fgets != NULL */
   }/*while*/
 
 sinks = nodes - sources;
@@ -197,7 +200,7 @@ void report_params()
   printf("c sources %d \n", sources);
   printf("c out-degree %d \n", degree); 
   if (rand_seed == TRUE) printf("c random seed\n");
-  else printf("c seed %d\n", seed);
+  else printf("c seed %ld\n", seed);
 }
 
 /*----------------Hash Table Routines ----------------*/

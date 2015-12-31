@@ -1,5 +1,7 @@
-#include<stdio.h>
-#include<math.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
 
 /*-----------------------------------------------------------*/
 /*  Generates instances for geometric matching in   DIMACS    */ 
@@ -24,7 +26,7 @@
 /*    seed    X   : specifies X a random seed; default use timer */ 
 /*---------------------------------------------------------------*/
 
-#define Assert( cond , msg ) if ( ! (cond) ) {printf("msg\n"); exit(); } ; 
+#define Assert( cond , msg ) if ( ! (cond) ) {printf("msg\n"); exit(1); } ; 
 #define MAXNODES 1000000
 #define TRUE 1
 #define FALSE 0
@@ -47,6 +49,8 @@ int rand_seed;        /*boolean flag*/
 /* Stuff for reading input commands */
 string cmdtable[10];
 int cmdtable_size; 
+
+long lprand(); /* declaration before use sets implicit return type  */
 
 /*  The uniform RNG below is highly portable.                       */ 
 /*  It will give IDENTICAL sequences of random numbers for any      */
@@ -143,7 +147,7 @@ int max;
 /*------------------Command input routines  */ 
 
 /* Lookup command in table */
-int lookup(cmd)
+int lookup(const char *cmd)
 {
  int i;
  int stop;
@@ -162,35 +166,33 @@ int index;
 int i; 
 
   while (scanf("%s", cmd ) != EOF) {
-    fgets(buf, sizeof(buf), stdin);
-    index = lookup(cmd);
-    switch(index) {
-
-    case 0:  { printf("%s: Unknown command. Ignored.\n", cmd);
-	       break;
-	     }
-    case 1:  {sscanf( buf , "%d", &nodes); 
-	      Assert( 1<=nodes && nodes<=MAXNODES , Nodes out of range. );
-              Assert( nodes<= MAXNODES , Recompile with higher MAXNODES. ); 
-	      break;
-	    }
-    case 2: { sscanf( buf, "%d", &seed);
-	       rand_seed  = FALSE;
-	       break;
-	    }
-    case 3: { sscanf( buf, "%d", &dimension);
-	      break; 
-	    }
-    case 4: { sscanf( buf, "%d", &maxloc);
-              Assert( 1 <= maxloc, Maxloc  must be positive. ); 
-              Assert( maxloc <= PRANDMAX,  Too many bits--recompile.);
-              break;
-            }
-
-    }/*switch*/
+    if (fgets(buf, sizeof(buf), stdin) != NULL) {
+      index = lookup(cmd);
+      switch(index) {
+  
+      case 0:  { printf("%s: Unknown command. Ignored.\n", cmd);
+  	       break;
+  	     }
+      case 1:  {sscanf( buf , "%d", &nodes); 
+  	      Assert( 1<=nodes && nodes<=MAXNODES , Nodes out of range. );
+                Assert( nodes<= MAXNODES , Recompile with higher MAXNODES. ); 
+  	      break;
+  	    }
+      case 2: { sscanf( buf, "%ld", &seed);
+  	       rand_seed  = FALSE;
+  	       break;
+  	    }
+      case 3: { sscanf( buf, "%d", &dimension);
+  	      break; 
+  	    }
+      case 4: { sscanf( buf, "%d", &maxloc);
+                Assert( 1 <= maxloc, Maxloc  must be positive. ); 
+                Assert( maxloc <= PRANDMAX,  Too many bits--recompile.);
+                break;
+              }
+      }/*switch*/
+    } /* fgets != NULL */
   }/*while*/
-
-
 }/*get_input*/
 
 /*---------------------------Report parameters  */
@@ -202,7 +204,7 @@ void report_params()
   printf("c dimension %d \n", dimension);
   printf("c max index value  %d \n", maxloc); 
   if (rand_seed == TRUE) printf("c random seed\n");
-  else printf("c seed %d\n", seed);
+  else printf("c seed %ld\n", seed);
 }
 
 
