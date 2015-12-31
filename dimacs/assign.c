@@ -1,5 +1,7 @@
-#include<stdio.h>
-#include<math.h>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+
 
 /*-----------------------------------------------------------*/
 /*  Generates instances for assignment according to DIMACS   */ 
@@ -120,7 +122,7 @@ double rand_d()  /* returns doubles from [0, 1.0) */
 /*------------------Command input routines  */ 
 
 /* Lookup command in table */
-int lookup(cmd)
+int lookup(const char *cmd)
 {
  int i;
  int stop;
