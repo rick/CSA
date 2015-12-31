@@ -20,7 +20,7 @@
 #
 BASEFILES=main.c refine.c update_epsilon.c parse.c stack.c timer.c debug.c
 HEADERS=csa_types.h csa_defs.h
-CFLAGS=-fast
+CFLAGS=
 
 links:		main.c parse.c stack.c timer.c list.c queue.c csa_defs.h
 	ln -s ../main.c main.c
