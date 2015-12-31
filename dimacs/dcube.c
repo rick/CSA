@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<math.h>
+#include<string.h>
 
 /*-----------------------------------------------------------*/
 /*  Generates instances for geometric matching in   DIMACS    */ 
