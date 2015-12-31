@@ -146,7 +146,7 @@ int max;
 /*------------------Command input routines  */ 
 
 /* Lookup command in table */
-int lookup(cmd)
+int lookup(const char *cmd)
 {
  int i;
  int stop;
