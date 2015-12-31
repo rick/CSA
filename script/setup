@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -x
+
+pushd csa/prec_costs
+  make clean && make
+popd
+
+pushd csa/round_costs
+  make clean && make
+popd
+
+pushd dimacs
+  make clean && make
+popd
+
+pushd pictures
+  make clean && make
+popd
