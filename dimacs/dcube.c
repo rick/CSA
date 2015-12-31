@@ -1,6 +1,7 @@
-#include<stdio.h>
-#include<math.h>
-#include<string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
 
 /*-----------------------------------------------------------*/
 /*  Generates instances for geometric matching in   DIMACS    */ 
@@ -25,7 +26,7 @@
 /*    seed    X   : specifies X a random seed; default use timer */ 
 /*---------------------------------------------------------------*/
 
-#define Assert( cond , msg ) if ( ! (cond) ) {printf("msg\n"); exit(); } ; 
+#define Assert( cond , msg ) if ( ! (cond) ) {printf("msg\n"); exit(1); } ; 
 #define MAXNODES 1000000
 #define TRUE 1
 #define FALSE 0
