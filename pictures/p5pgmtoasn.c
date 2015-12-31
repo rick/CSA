@@ -58,7 +58,7 @@ long	val;
 main()
 
 {
-char	line[70], file_type[2];
+char	line[70], file_type[2], *result;
 long	pv;
 int	ch;
 unsigned	long	r, c;
@@ -67,21 +67,27 @@ unsigned	long	i;
 unsigned	max;
 unsigned	long	numgreys;
 
-(void) gets(line);
-if ((sscanf(line, "%2s", file_type) == 0) ||
-    (file_type[0] != 'P') ||
-    (file_type[1] != '5'))
-  errmsg(FILE_FORMAT);
-do
-  (void) gets(line);
-while (line[0] == '#');
-if (sscanf(line, "%lu%lu", &wid, &len) != 2)
-  errmsg(FILE_FORMAT);
-do
-  (void) gets(line);
-while (line[0] == '#');
-if (sscanf(line, "%u", &max) != 1)
-  errmsg(FILE_FORMAT);
+if (fgets(line, sizeof(line), stdin) != NULL) {
+  if ((sscanf(line, "%2s", file_type) == 0) ||
+      (file_type[0] != 'P') ||
+      (file_type[1] != '5'))
+    errmsg(FILE_FORMAT);
+
+  do
+    result = fgets(line, sizeof(line), stdin);
+  while ((result != NULL) && (line[0] == '#'));
+  
+  if (sscanf(line, "%lu%lu", &wid, &len) != 2)
+    errmsg(FILE_FORMAT);
+
+  do
+    result = fgets(line, sizeof(line), stdin);
+  while ((result != NULL) && (line[0] == '#'));
+
+  if (sscanf(line, "%u", &max) != 1)
+    errmsg(FILE_FORMAT);
+}
+
 /*
 Now read greyscale information.
 */
