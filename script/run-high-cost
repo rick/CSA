@@ -19,13 +19,55 @@ def solver_ready?
   File.exists? solver_path
 end
 
-def data_template(nodes)
+def template_high_cost(nodes)
   sources = nodes / 2
   degree = Math.log(nodes, 2).ceil
-  maxcost = 1_000_000_000
+  maxcost = 100_000_000
   seed = rand(100000)
 
-  "nodes #{nodes}\nsources #{sources}\ndegree #{degree}\nmaxcost 1000000000\nseed #{seed}\n"
+  "nodes #{nodes}\nsources #{sources}\ndegree #{degree}\nmaxcost #{maxcost}\nseed #{seed}\n"
+end
+
+def template_low_cost(nodes)
+  sources = nodes / 2
+  degree = Math.log(nodes, 2).ceil
+  maxcost = 100
+  seed = rand(100000)
+
+  "nodes #{nodes}\nsources #{sources}\ndegree #{degree}\nmaxcost #{maxcost}\nseed #{seed}\n"
+end
+
+def template_fixed_cost(nodes)
+  sources = nodes / 2
+  degree = (nodes / 16.0).ceil
+  maxcost = 100
+  seed = rand(100000)
+
+  "nodes #{nodes}\nsources #{sources}\ndegree #{degree}\nmaxcost #{maxcost}\nmultiple\nseed #{seed}\n"
+end
+
+def template_dense(nodes)
+  sources = nodes / 2
+  maxcost = 1_000_000
+  seed = rand(100000)
+
+  "nodes #{nodes}\nsources #{sources}\ncomplete\nmaxcost #{maxcost}\nseed #{seed}\n"
+end
+
+def data_template(which, nodes)
+  template = 
+    case which
+    when "high"
+      template_high_cost(nodes)
+    when "low"
+      template_low_cost(nodes)
+    when "fixed"
+      template_fixed_cost(nodes)
+    when "dense"
+      template_dense(nodes)
+    else
+      raise "Unknown template type: #{which}"
+  end
 end
 
 def create_data(dir, template)
@@ -46,10 +88,10 @@ def run_solver(dir, data)
   File.join(dir, "output.flow")
 end
 
-def solve(nodes, destination)
+def solve(which, nodes, destination)
   Dir.mktmpdir do |dir|
     dir = "/tmp"
-    data_file = create_data(dir, data_template(nodes))
+    data_file = create_data(dir, data_template(which, nodes))
     flow = run_solver(dir, data_file)
     puts "Flow stored in output file: #{flow} moving to #{destination}..."
     FileUtils.move flow, destination
@@ -57,7 +99,10 @@ def solve(nodes, destination)
   end
 end
 
-usage = "usage: #{$0} <nodecount> <output file>"
+usage = "usage: #{$0} [high|low|fixed|dense] <nodecount> <output file>"
+
+which = ARGV.shift
+raise "#{usage}" unless %w(high low fixed dense).include?(which)
 
 nodes = ARGV.shift.to_i
 raise "#{usage}" unless nodes > 0
@@ -68,4 +113,4 @@ raise "#{usage}" unless destination and destination != ""
 raise "Cannot find generator in #{generator_path}. Perhaps run script/setup?" unless generator_ready?
 raise "Cannot find solver in #{solver_path}. Perhaps run script/setup?" unless solver_ready?
 
-solve nodes, destination
+solve which, nodes, destination
