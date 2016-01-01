@@ -1,0 +1,71 @@
+#!/usr/bin/env ruby
+
+require "tmpdir"
+require "fileutils"
+
+def generator_path
+  File.expand_path(File.join(File.dirname(__FILE__), "..", "dimacs", "assign"))
+end
+
+def solver_path
+  File.expand_path(File.join(File.dirname(__FILE__), "..", "csa", "prec_costs", "csa_s_qm"))
+end
+
+def generator_ready?
+  File.exists? generator_path
+end
+
+def solver_ready?
+  File.exists? solver_path
+end
+
+def data_template(nodes)
+  sources = nodes / 2
+  degree = Math.log(nodes, 2).ceil
+  maxcost = 1_000_000_000
+  seed = rand(100000)
+
+  "nodes #{nodes}\nsources #{sources}\ndegree #{degree}\nmaxcost 1000000000\nseed #{seed}\n"
+end
+
+def create_data(dir, template)
+  template_file = File.join(dir, "template.txt")	   
+  data_file     = File.join(dir, "data.txt")
+
+  File.open(template_file, "w") { |file| file.puts template }
+  puts "\nGenerating data from template in file [#{template_file}]:\n\n#{template}"
+  system "#{generator_path} < #{template_file} > #{data_file}"
+
+  data_file
+end
+
+def run_solver(dir, data)
+  puts "\nRunning CSA-Q solver on data file [#{data}]:\n\n"
+  
+  system "cd #{dir} && #{solver_path} < #{data}"
+  File.join(dir, "output.flow")
+end
+
+def solve(nodes, destination)
+  Dir.mktmpdir do |dir|
+    dir = "/tmp"
+    data_file = create_data(dir, data_template(nodes))
+    flow = run_solver(dir, data_file)
+    puts "Flow stored in output file: #{flow} moving to #{destination}..."
+    FileUtils.move flow, destination
+    puts "Done."
+  end
+end
+
+usage = "usage: #{$0} <nodecount> <output file>"
+
+nodes = ARGV.shift.to_i
+raise "#{usage}" unless nodes > 0
+
+destination = ARGV.shift
+raise "#{usage}" unless destination and destination != "" 
+
+raise "Cannot find generator in #{generator_path}. Perhaps run script/setup?" unless generator_ready?
+raise "Cannot find solver in #{solver_path}. Perhaps run script/setup?" unless solver_ready?
+
+solve nodes, destination
