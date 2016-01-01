@@ -90,7 +90,6 @@ end
 
 def solve(which, nodes, destination)
   Dir.mktmpdir do |dir|
-    dir = "/tmp"
     data_file = create_data(dir, data_template(which, nodes))
     flow = run_solver(dir, data_file)
     puts "Flow stored in output file: #{flow} moving to #{destination}..."
