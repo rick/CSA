@@ -1,4 +1,6 @@
-#include<stdio.h> 
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 /*  This file contains a set of c-language functions for generating */
 /*  uniform integers.   This is a COMPLETELY PORTABLE generator.    */

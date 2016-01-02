@@ -2,7 +2,7 @@
 #include <string.h>
 #include <math.h>
 #include <stdlib.h>
-
+#include <time.h>
 
 /*-----------------------------------------------------------*/
 /*  Generates instances for assignment according to DIMACS   */ 
