@@ -38,7 +38,7 @@ b_stop = (w+1)->priced_out;
 p = w->p;
 wk = w->key;
 for (b = w->back_arcs; b != b_stop; b++)
-  if (a = b->tail->matched)
+  if ((a = b->tail->matched))
     {
     if (((u = a->head) != w) && u->node_info.priced_in)
       {

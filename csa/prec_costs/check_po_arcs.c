@@ -43,7 +43,7 @@ for (v = head_lhs_node; v != tail_lhs_node; v++)
   there are no such routines.
   */
   a_stop = (v+1)->priced_out;
-  if (a = v->matched)
+  if ((a = v->matched))
     {
     /*
     Node v is matched. Price in any arcs not far costlier than the

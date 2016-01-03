@@ -275,7 +275,7 @@ change the matching, but we reset the value of adm_gap so that the
 (v, w) arc will be priced out.
 */
 w = adm->head;
-if (u = w->matched)
+if ((u = w->matched))
   /*
   If w's matched arc is priced in, go ahead and unmatch (u, w) and
   match (v, w). If w's matched arc is priced out, abort the double
