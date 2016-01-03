@@ -25,7 +25,7 @@ char *err_messages[] =
 "Can't obtain enough memory to solve this problem.",
 };
 
-parse_error(err_index)
+void parse_error(err_index)
 
 int err_index;
 
