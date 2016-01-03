@@ -399,7 +399,7 @@ for (v = head_lhs_node; v != tail_lhs_node; v++)
 
 int	main(argc, argv)
 
-unsigned	argc;
+int     argc;
 char		*argv[];
 
 {
