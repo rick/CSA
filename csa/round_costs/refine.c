@@ -70,7 +70,7 @@ for (a++; a != a_stop; a++)
     adm_gap = red_cost - mini;
 /* Match v through adm */
 w = adm->head;
-if (u = w->matched)
+if ((u = w->matched))
   /*
   If w's matched arc is priced in, go ahead and unmatch (u, w) and
   match (v, w). If w's matched arc is priced out, abort the double
