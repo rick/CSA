@@ -14,7 +14,7 @@ $ script/setup  # will clean and build all the relevant sources, run this before
 
 #### Running the solver on generated graphs
 
-The `script/run-graphs` ruby script will use the original [DIMACS Challenge](http://dimacs.rutgers.edu/Challenges/) graph generator scripts to generate one of four types of graph, with the specified number of nodes; run the CSA-Q solver over that graph, and deposit a results file for the matching in the designated location. (Note: the documentation on the DIMACS graph format can be found locally in [docs/dimacs_file_format.pdf](docs/dimacs_file_format.pdf).)
+The `script/run-graphs` ruby script will use the original [DIMACS Challenge](http://dimacs.rutgers.edu/Challenges/) graph generator scripts to generate one of four types of graph, with the specified number of nodes; run the CSA-Q solver over that graph, and deposit a results file for the matching in the designated location.
 
 ```
 $ script/run-graphs
@@ -75,6 +75,7 @@ From the matching on the augmented graph, we can take those original nodes from 
  - [Andrew Goldberg's Network Optimization Library](http://www.avglab.com/andrew/soft.html), and a link to [the directory where the network optimization software is stored](http://www.avglab.com/andrew/soft/) (as some links are broken).
  - [Andrew V. Goldberg's home page](http://www.avglab.com/andrew/)
  - [DIMACS implementation challenges](http://dimacs.rutgers.edu/Challenges/) - the first challenge covered network flows and matching. **Note:** Google Chrome cannot apparently successfully access the FTP site -- use another client.
+ - The documentation on the DIMACS graph format can be found locally in [docs/dimacs_file_format.pdf](docs/dimacs_file_format.pdf).
 
 ### Other Distributions
 
