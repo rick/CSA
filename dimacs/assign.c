@@ -286,7 +286,7 @@ int src;
 /*Generate arcs w/o replacement when degree >= 2*sinks.    */
 /* See  Knuth V2, 3.4.2, Algorithm S                       */
 
-generate_arcs2(howmany, src)
+void generate_arcs2(howmany, src)
 int howmany;
 int src;
 
