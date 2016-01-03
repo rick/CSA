@@ -373,7 +373,7 @@ void generate_net()
 }/*generate_net*/
 
 /*--------------------main--------------------- */
-main()
+int main()
 {
 
     init();

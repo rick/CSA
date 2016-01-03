@@ -231,7 +231,7 @@ void generate_graph()
 }/*generate_net*/
 
 /*--------------------main--------------------- */
-main()
+int main()
 {
 
     init();

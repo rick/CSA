@@ -80,9 +80,9 @@ long lprand()
 /*  should produce             */
 /*     57265995                */
 
-main(argc, argv)
+int main(argc, argv)
 int argc;
-int *argv;
+char **argv;
 {
   int i;
   int j;
