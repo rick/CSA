@@ -4,13 +4,17 @@ This is a mirror of CSA version 1.2. This tooling is a solver for weighted bipar
 
 ### Usage
 
-Familiarity with the original publication (see "Resources" below) is useful. There are a couple of scripts to help with experimenting with things.
+Familiarity with the original publication (see "Resources" below) is useful. There some scripts to help with experimenting with things.
+
+#### Building
 
 ```
 $ script/setup  # will clean and build all the relevant sources, run this before anything else
 ```
 
-The `script/run-graphs` ruby script will generate one of four types of data, with the specified number of nodes, run the CSA-Q solver over that data, and deposit a matching file in the designated location:
+#### Running the solver on generated graphs
+
+The `script/run-graphs` ruby script will use the original [DIMACS Challenge](http://dimacs.rutgers.edu/Challenges/) graph generator scripts to generate one of four types of graph, with the specified number of nodes; run the CSA-Q solver over that graph, and deposit a results file for the matching in the designated location:
 
 ```
 $ script/run-graphs
