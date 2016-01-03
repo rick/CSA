@@ -20,7 +20,7 @@
 #
 BASEFILES=main.c refine.c update_epsilon.c parse.c stack.c timer.c debug.c
 HEADERS=csa_types.h csa_defs.h
-CFLAGS=
+CFLAGS=-O3
 TARGETS=csa_s_tpo csa_q_tpo csa_s_rtpo csa_q_rtpo csa_s_spo csa_q_spo csa_s_rspo csa_q_rspo csa_s_tpo_pr csa_q_tpo_pr csa_s_rtpo_pr csa_q_rtpo_pr csa_s_spo_pr csa_q_spo_pr csa_s_rspo_pr csa_q_rspo_pr csa_s_tpo_pu csa_q_tpo_pu csa_s_rtpo_pu csa_q_rtpo_pu csa_s_spo_pu csa_q_spo_pu csa_s_tpo_pr_pu csa_q_tpo_pr_pu csa_s_rtpo_pr_pu csa_q_rtpo_pr_pu csa_s_spo_pr_pu csa_q_spo_pr_pu
 
 

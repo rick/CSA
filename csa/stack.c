@@ -1,5 +1,5 @@
 #include	<stdio.h>
-#include	<malloc.h>
+#include	<stdlib.h>
 #include	"csa_types.h"
 
 char	*nomem_msg = "Insufficient memory.\n";
@@ -28,7 +28,7 @@ unsigned	size;
 {
 stack	s;
 void	exit();
-  
+
 s = (stack) malloc(sizeof(struct stack_st));
 
 if (s == NULL)

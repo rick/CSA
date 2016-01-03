@@ -27,7 +27,7 @@
 #
 BASEFILES=main.c refine.c update_epsilon.c parse.c stack.c timer.c debug.c
 HEADERS=csa_types.h csa_defs.h
-CFLAGS=-O4 -DSAVE_RESULT
+CFLAGS=-O3 -DSAVE_RESULT
 TARGETS=csa_s csa_s_qm csa_q csa_q_qm csa_s_pr csa_q_pr csa_s_pr_qm csa_s_pu csa_s_pu_qm csa_q_pu csa_s_pr_pu csa_q_pr_pu csa_s_tpo csa_s_tpo_qm csa_q_tpo csa_s_rtpo csa_q_rtpo csa_s_rtpo_qm csa_s_spo csa_s_spo_qm csa_q_spo csa_s_rspo csa_s_rspo_qm csa_q_rspo csa_s_tpo_pr csa_q_tpo_pr csa_s_rtpo_pr csa_q_rtpo_pr csa_s_spo_pr csa_q_spo_pr csa_s_rspo_pr csa_q_rspo_pr csa_s_tpo_pu csa_q_tpo_pu csa_s_rtpo_pu csa_q_rtpo_pu csa_s_spo_pu csa_q_spo_pu csa_s_tpo_pr_pu csa_q_tpo_pr_pu csa_s_rtpo_pr_pu csa_q_rtpo_pr_pu csa_s_spo_pr_pu csa_q_spo_pr_pu
 
 all:	$(TARGETS)
@@ -183,4 +183,3 @@ csa_s_spo_pr_pu:	$(BASEFILES) $(HEADERS) p_refine.c p_update.c check_po_arcs.c l
 
 csa_q_spo_pr_pu:	$(BASEFILES) $(HEADERS) p_refine.c p_update.c check_po_arcs.c queue.c list.c
 	cc $(CFLAGS) -DUSE_PRICE_OUT -DSTRONG_PO -DUSE_P_UPDATE -DUSE_P_REFINE -DQUEUE_ORDER -o $@ $(BASEFILES) p_refine.c p_update.c check_po_arcs.c queue.c list.c -lm
-

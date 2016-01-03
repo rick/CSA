@@ -55,7 +55,7 @@ def template_dense(nodes)
 end
 
 def data_template(which, nodes)
-  template = 
+  template =
     case which
     when "high"
       template_high_cost(nodes)
@@ -71,7 +71,7 @@ def data_template(which, nodes)
 end
 
 def create_data(dir, template)
-  template_file = File.join(dir, "template.txt")	   
+  template_file = File.join(dir, "template.txt")
   data_file     = File.join(dir, "data.txt")
 
   File.open(template_file, "w") { |file| file.puts template }
@@ -83,7 +83,7 @@ end
 
 def run_solver(dir, data)
   puts "\nRunning CSA-Q solver on data file [#{data}]:\n\n"
-  
+
   system "cd #{dir} && #{solver_path} < #{data}"
   File.join(dir, "output.flow")
 end
@@ -107,7 +107,7 @@ nodes = ARGV.shift.to_i
 raise "#{usage}" unless nodes > 0
 
 destination = ARGV.shift
-raise "#{usage}" unless destination and destination != "" 
+raise "#{usage}" unless destination and destination != ""
 
 raise "Cannot find generator in #{generator_path}. Perhaps run script/setup?" unless generator_ready?
 raise "Cannot find solver in #{solver_path}. Perhaps run script/setup?" unless solver_ready?

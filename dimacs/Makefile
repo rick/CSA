@@ -1,7 +1,7 @@
 # Makefile to build and clean up DIMACS sources
 
 BASEFILES=assign.c dcube.c universal.c
-CFLAGS=-O4
+CFLAGS=-O3
 TARGETS=assign dcube universal
 
 all:	$(TARGETS)

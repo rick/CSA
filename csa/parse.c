@@ -1,5 +1,5 @@
 #include	<stdio.h>
-#include	<malloc.h>
+#include	<stdlib.h>
 #include	"csa_types.h"
 #include	"csa_defs.h"
 
@@ -12,7 +12,7 @@
 #define BADCOUNT	1006	/* Arc count discrepancy */
 #define	NONCONTIG	1007	/* Node id numbers not contiguous */
 #define NOMEM		1008	/* Not enough memory */
-  
+
 char *err_messages[] =
 {
 "Can't read from the input file.",
@@ -25,7 +25,7 @@ char *err_messages[] =
 "Can't obtain enough memory to solve this problem.",
 };
 
-parse_error(err_index)
+void parse_error(err_index)
 
 int err_index;
 

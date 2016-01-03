@@ -1,7 +1,7 @@
 # Makefile to build and clean up DIMACS sources
 
 BASEFILES=p5pgmtoasn.c
-CFLAGS=-O4
+CFLAGS=-O3
 TARGETS=p5pgmtoasn
 
 all:	$(TARGETS)

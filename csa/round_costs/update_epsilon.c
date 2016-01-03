@@ -54,7 +54,7 @@ absolute_banish_thresh = banish_thresh * epsilon;
 for (v = head_lhs_node; v != tail_lhs_node; v++)
   {
   a_stop = (v+1)->priced_out;
-  if (a = v->matched)
+  if ((a = v->matched))
     v_price = a->head->base_p - a->c_init;
   else
     {
@@ -172,7 +172,7 @@ for (v = head_lhs_node; v != tail_lhs_node; v++)
   /*
   Now deal with the matching arc, if any.
   */
-  if (a = v->matched)
+  if ((a = v->matched))
     {
     a->c = 0;
 #ifdef	USE_P_UPDATE
