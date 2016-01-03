@@ -20,9 +20,9 @@ reachability in the admissible graph for all excesses.
 */
 
 unsigned	u_scan(w)
-     
+
 rhs_ptr	w;
-     
+
 {
 register	rl_aptr	b, b_stop;
 register	lr_aptr	a;
@@ -32,7 +32,7 @@ register	long	wk, uk;
 register	long	p;
 long	u_to_w_cost;
 unsigned	excess_found = 0;
-  
+
 u_scans++;
 b_stop = (w+1)->priced_out;
 p = w->p;
@@ -89,21 +89,21 @@ return(excess_found);
 }
 
 void	p_update()
-     
+
 {
 rhs_ptr	w;
 lhs_ptr	v;
 long	delta_c, this_cost;
 long	balance, level;
 lr_aptr	a, a_stop;
-  
+
 p_update_time -= myclock();
 p_updates++;
-  
+
 #ifdef	DEBUG
 (void) printf("Doing p_update(): total_e = %lu\n", total_e);
 #endif
-  
+
 for (v = head_lhs_node; v != tail_lhs_node; v++)
   {
   a_stop = (v+1)->priced_out;

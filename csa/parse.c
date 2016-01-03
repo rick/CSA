@@ -12,7 +12,7 @@
 #define BADCOUNT	1006	/* Arc count discrepancy */
 #define	NONCONTIG	1007	/* Node id numbers not contiguous */
 #define NOMEM		1008	/* Not enough memory */
-  
+
 char *err_messages[] =
 {
 "Can't read from the input file.",

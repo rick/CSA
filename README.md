@@ -13,7 +13,7 @@ $ script/setup  # will clean and build all the relevant sources, run this before
 The `script/run-graphs` ruby script will generate one of four types of data, with the specified number of nodes, run the CSA-Q solver over that data, and deposit a matching file in the designated location:
 
 ```
-$ script/run-graphs 
+$ script/run-graphs
 RuntimeError: usage: script/run-graphs [high|low|fixed|dense] <nodecount> <output file>
 $ time script/run-graphs high 100000 /tmp/flow.txt
 
@@ -42,7 +42,7 @@ real	0m1.534s
 user	0m1.404s
 sys	0m0.127s
 
-$ wc -l /tmp/flow.txt 
+$ wc -l /tmp/flow.txt
 50000 /tmp/flow.txt
 ```
 

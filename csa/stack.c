@@ -28,7 +28,7 @@ unsigned	size;
 {
 stack	s;
 void	exit();
-  
+
 s = (stack) malloc(sizeof(struct stack_st));
 
 if (s == NULL)

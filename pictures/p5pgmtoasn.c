@@ -76,7 +76,7 @@ if (fgets(line, sizeof(line), stdin) != NULL) {
   do
     result = fgets(line, sizeof(line), stdin);
   while ((result != NULL) && (line[0] == '#'));
-  
+
   if (sscanf(line, "%lu%lu", &wid, &len) != 2)
     errmsg(FILE_FORMAT);
 

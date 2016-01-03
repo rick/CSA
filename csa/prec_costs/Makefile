@@ -183,4 +183,3 @@ csa_s_spo_pr_pu:	$(BASEFILES) $(HEADERS) p_refine.c p_update.c check_po_arcs.c l
 
 csa_q_spo_pr_pu:	$(BASEFILES) $(HEADERS) p_refine.c p_update.c check_po_arcs.c queue.c list.c
 	cc $(CFLAGS) -DUSE_PRICE_OUT -DSTRONG_PO -DUSE_P_UPDATE -DUSE_P_REFINE -DQUEUE_ORDER -o $@ $(BASEFILES) p_refine.c p_update.c check_po_arcs.c queue.c list.c -lm
-

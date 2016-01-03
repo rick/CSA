@@ -4,7 +4,7 @@
 #include	"csa_types.h"
 #include	"csa_defs.h"
 
-/* 
+/*
 extern	double	epsilon, min_epsilon, scale_factor;
 */
 extern	double	epsilon, min_epsilon;
