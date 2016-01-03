@@ -55,7 +55,6 @@ $ wc -l /tmp/flow.txt
 
 ### Notes
 
- - Out of the box, the CSA software (also perhaps the DIMACS software) will not compile without modification on Mac OS X.
  - CSA presumes that the graph provided contains a perfect matching. If no such matching exists the solver will either not terminate, or can produce a non-optimal matching. Conjecture: It should suffice to augment graphs to complete bipartite graphs, with added edges having sufficiently large weights as to not be selected in a matching.
  - There appears to have been a CSA-1.2.1 linked from the [network optimization library page](http://www.avglab.com/andrew/soft.html) but this code seems to have gone missing. Version 1.2 is mirrored here.
  - It appears that the CS2 software is [also mirrored by another individual on GitHub](https://github.com/iveney/cs2) (note this is not "version 2" of CSA, but a different tool).
