@@ -117,14 +117,16 @@ for (; a != a_stop; a++)
 		   v->best[NUM_BEST - 1]->head->p;
     }
 #else
-    if (red_cost < (save_max = v->best[NUM_BEST - 1]->c -
-			       v->best[NUM_BEST - 1]->head->p))
-      {
-      sort_insert(v->best, NUM_BEST, a, red_cost, NUM_BEST);
-      v->next_best = save_max;
-      }
-    else
-      v->next_best = red_cost;
+    {
+      if (red_cost < (save_max = v->best[NUM_BEST - 1]->c -
+  			       v->best[NUM_BEST - 1]->head->p))
+        {
+        sort_insert(v->best, NUM_BEST, a, red_cost, NUM_BEST);
+        v->next_best = save_max;
+        }
+      else
+        v->next_best = red_cost;
+    }
 #endif
   }
 }
