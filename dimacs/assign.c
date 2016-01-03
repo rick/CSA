@@ -32,7 +32,7 @@
 /*    sources S   : specifies S sources; default 1               */
 /*    maxcost C   : maximum arc cost; default MAXCOST            */
 /*    multiple    : arc (i,j) has cost C*i*j; default random costs */
-/*    complete    : specifies maximum out-degree from suppliers  *
+/*    complete    : specifies maximum out-degree from suppliers  */
 /*    degree  D   : specifies out-degree D from suppliers        */
 /*    seed    X   : specifies X a random seed; default use timer */
 /*---------------------------------------------------------------*/
