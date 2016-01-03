@@ -3,7 +3,7 @@ Program to convert 'P5' greymap file into an assignment problem.
 */
 
 #include	<stdio.h>
-#include	<malloc.h>
+#include	<stdlib.h>
 
 unsigned	long	len, wid;
 unsigned	long	num_one_side;
@@ -55,7 +55,7 @@ long	val;
 (void) printf("a %lu %lu %ld\n", node_id(r0, c0), node_id(r1, c1), val);
 }
 
-main()
+int main()
 
 {
 char	line[70], file_type[2], *result;
