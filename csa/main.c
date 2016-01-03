@@ -28,7 +28,7 @@ Please report any problems to robert@cs.stanford.edu.
 
 #include	<stdio.h>
 #include	<math.h>
-#include	<malloc.h>
+#include	<stdlib.h>
 #include	"csa_types.h"
 #include	"csa_defs.h"
 
