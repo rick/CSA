@@ -14,7 +14,7 @@ $ script/setup  # will clean and build all the relevant sources, run this before
 
 #### Running the solver on generated graphs
 
-The `script/run-graphs` ruby script will use the original [DIMACS Challenge](http://dimacs.rutgers.edu/Challenges/) graph generator scripts to generate one of four types of graph, with the specified number of nodes; run the CSA-Q solver over that graph, and deposit a results file for the matching in the designated location:
+The `script/run-graphs` ruby script will use the original [DIMACS Challenge](http://dimacs.rutgers.edu/Challenges/) graph generator scripts to generate one of four types of graph, with the specified number of nodes; run the CSA-Q solver over that graph, and deposit a results file for the matching in the designated location. (Note: the documentation on the DIMACS graph format can be found locally in [docs/dimacs_file_format.pdf](docs/dimacs_file_format.pdf).)
 
 ```
 $ script/run-graphs
@@ -65,7 +65,7 @@ Given a weighted bipartite graph `G`, with `n` vertices and `m` weighted edges, 
 
 An illustration may help:
 
-![](images/augmented-matching.png?raw=true)
+![](docs/images/augmented-matching.png?raw=true)
 
 From the matching on the augmented graph, we can take those original nodes from `G` which matched with other original nodes from `G` as the desired matching. Note that nodes from `G` which matched via high-cost edges (necessarily with their complement nodes in the flipped graph) are unmatched nodes in the solution.
 
