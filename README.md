@@ -1,6 +1,6 @@
 ### "CSA" from Andrew V. Goldberg's Network Optimization Library
 
-This is a mirror of CSA version 1.2. This tooling is a solver for weighted bipartite matchings. It is useful for finding solutions to instances of [the Assignment Problem](https://en.wikipedia.org/wiki/Assignment_problem).
+This is a mirror of CSA version 1.2. This tooling is a solver for weighted bipartite matchings. It is useful for finding solutions to instances of [the Assignment Problem](https://en.wikipedia.org/wiki/Assignment_problem). The original code has been updated to work with modern C compilers, and additional tooling around the solver has been added.
 
 ### Usage
 
@@ -46,6 +46,26 @@ $ wc -l /tmp/flow.txt
 50000 /tmp/flow.txt
 ```
 
+### Perfect Matchings
+
+CSA presumes that the graph provided contains a perfect matching. If no such matching exists the solver will either not terminate, or can produce a non-optimal matching. (There are notes in the code to the effect that it would be possible to modify the solver to deal with this case, but that work was apparently never undertaken)
+
+After conversations with the Andrew V. Golberg, he provided an algorithm for converting a bipartite graph which might not have a perfect matching into a graph which will have a perfect matching, and from which a solution to the perfect assignment problem on the augmented graph can be transformed into a maximum cardinality minimum cost matching on the original graph.
+
+The algorithm is as follows.
+
+Given a weighted bipartite graph `G`, with `n` vertices and `m` weighted edges, construct an augmented graph `G'` with `2n` vertices and `2m+n` edges:
+
+ - `G'` is the original graph `G`, plus its flipped copy (vertices on the left side copied to the right side, and vice versa).
+ - The original edge weights are also copied.
+ - Add high-cost edges between each original node and its flipped copy.
+
+An illustration may help:
+
+![](images/augmented-matching.png)
+
+From the matching on the augmented graph, we can take those original nodes from `G` which matched with other original nodes from `G` as the desired matching. Note that nodes from `G` which matched via high-cost edges (necessarily with their complement nodes in the flipped graph) are unmatched nodes in the solution.
+
 ### Resources
 
  - ["An efficient cost scaling algorithm for the assignment problem [citeseer]"](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.228.3430), the paper documenting this work. A PDF is available at the link.
@@ -53,12 +73,11 @@ $ wc -l /tmp/flow.txt
  - [Andrew V. Goldberg's home page](http://www.avglab.com/andrew/)
  - [DIMACS implementation challenges](http://dimacs.rutgers.edu/Challenges/) - the first challenge covered network flows and matching. **Note:** Google Chrome cannot apparently successfully access the FTP site -- use another client.
 
-### Notes
+### Other Distributions
 
- - CSA presumes that the graph provided contains a perfect matching. If no such matching exists the solver will either not terminate, or can produce a non-optimal matching. Conjecture: It should suffice to augment graphs to complete bipartite graphs, with added edges having sufficiently large weights as to not be selected in a matching.
  - There appears to have been a CSA-1.2.1 linked from the [network optimization library page](http://www.avglab.com/andrew/soft.html) but this code seems to have gone missing. Version 1.2 is mirrored here.
  - It appears that the CS2 software is [also mirrored by another individual on GitHub](https://github.com/iveney/cs2) (note this is not "version 2" of CSA, but a different tool).
 
-#### Copyright
+### Copyright
 
 Copyright notice(s) can be found in the file [COPYRIGHT](COPYRIGHT.md).
