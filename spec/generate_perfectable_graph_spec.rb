@@ -2,14 +2,18 @@ require "minitest/autorun"
 
 class DimacsGraph
   attr_reader :file
-  attr_reader :basedir
+  attr_reader :output_dir
   attr_reader :line_count
   attr_reader :problem_node_count
   attr_reader :problem_arc_count
 
-  def initialize(file, basedir)
-    @file = file
-    @basedir = basedir
+  def self.parse(graph_file, output_dir)
+    parser = self.new
+    parser.parse graph_file, output_dir
+    parser
+  end
+
+  def initialize
   end
 
   def increment_line_count
@@ -17,7 +21,10 @@ class DimacsGraph
     @line_count += 1
   end
 
-  def parse
+  def parse(graph_file, output_dir)
+    @file       = graph_file
+    @output_dir = output_dir
+
     File.open(file) do |f|
       f.each_line do |line|
         increment_line_count
@@ -32,7 +39,7 @@ class DimacsGraph
         when /^p\s+/i
           process_problem_line line
         else
-          raise "Unrecognized line (@ #{{line_count}}): #{line} in input file [#{file}]"
+          raise "Unrecognized line (@ #{line_count}): #{line} in input file [#{file}]"
         end
       end
     end
@@ -58,7 +65,7 @@ class DimacsGraph
   end
 
   def node_output_path
-    File.join(basedir, "node_output.txt")
+    File.join(output_dir, "node_output.txt")
   end
 
   def node_output_file
@@ -112,81 +119,73 @@ def fixture_file(path)
 end
 
 describe "parsing a DIMACS assignment problem graph file" do
+  before do
+    @basedir = '/tmp'
+  end
+
   it "fails if the specified file cannot be read" do
-    @parser = DimacsGraph.new("/non/existent/file")
     assert_raises(Errno::ENOENT) do
-      @parser.parse
+      parser = DimacsGraph.parse "/non/existent/file", @basedir
     end
   end
 
   it "fails if the file does not have a problem line" do
-    @parser = DimacsGraph.new(fixture_file("no-problem-line.txt"))
     assert_raises do
-      @parser.parse
+      parser = DimacsGraph.parse fixture_file("no-problem-line.txt"), @basedir
     end
   end
 
   it "fails if the file does not have an assignment problem line" do
-    @parser = DimacsGraph.new(fixture_file("invalid-problem-line.txt"))
     assert_raises do
-      @parser.parse
+      parser = DimacsGraph.parse fixture_file("invalid-problem-line.txt"), @basedir
     end
   end
 
   it "fails if the file contains an unrecognizeable line" do
-    @parser = DimacsGraph.new(fixture_file("unrecognizeable-line.txt"))
     assert_raises do
-      @parser.parse
+      parser = DimacsGraph.parse fixture_file("unrecognizeable-line.txt"), @basedir
     end
   end
 
   it "fails if the file does not have the number of arcs listed in the problem line" do
-    @parser = DimacsGraph.new(fixture_file("arc-count-too-low.txt"))
     assert_raises do
-      @parser.parse
+      parser = DimacsGraph.parse fixture_file("arc-count-too-low.txt"), @basedir
     end
 
-    @parser = DimacsGraph.new(fixture_file("arc-count-too-high.txt"))
     assert_raises do
-      @parser.parse
+      parser = DimacsGraph.parse fixture_file("arc-count-too-high.txt"), @basedir
     end
   end
 
   it "fails if the file does not mention all the nodes listed in the problem line" do
-    @parser = DimacsGraph.new(fixture_file("node-count-too-low.txt"))
     assert_raises do
-      @parser.parse
+      parser = DimacsGraph.parse fixture_file("node-count-too-low.txt"), @basedir
     end
 
-    @parser = DimacsGraph.new(fixture_file("node-count-too-high.txt"))
     assert_raises do
-      @parser.parse
+      parser = DimacsGraph.parse fixture_file("node-count-too-high.txt"), @basedir
     end
   end
 
   it "fails if the file mentions a node higher than the count in the problem line" do
-    @parser = DimacsGraph.new(fixture_file("node-with-index-too-high-on-node-list.txt"))
     assert_raises do
-      @parser.parse
+      parser = DimacsGraph.parse fixture_file("node-with-index-too-high-on-node-list.txt"), @basedir
     end
 
-    @parser = DimacsGraph.new(fixture_file("node-with-index-too-high-on-arc-list.txt"))
     assert_raises do
-      @parser.parse
+      parser = DimacsGraph.parse fixture_file("node-with-index-too-high-on-arc-list.txt"), @basedir
     end
   end
 
   it "can return the correct number of nodes from the file's problem line" do
-    @parser = DimacsGraph.new(fixture_file("10-node-graph.txt"))
-    @parser.parse
-    assert_equal 10, @parser.problem_node_count
+    parser = DimacsGraph.parse fixture_file("10-node-graph.txt"), @basedir
+    assert_equal 10, parser.problem_node_count
   end
 
-  it "can return the correct number of arcs from the file's problem line" do
-    @parser = DimacsGraph.new(fixture_file("10-node-graph.txt"))
-    @parser.parse
-    assert_equal 20, @parser.problem_arc_count
-  end
+  # it "can return the correct number of arcs from the file's problem line" do
+  #   parser = DimacsGraph.parse
+  #   assert_equal 20, parser.problem_arc_count
+  # end
 end
 
 describe "writing a DIMACS file for an augmented graph with perfect matching" do
