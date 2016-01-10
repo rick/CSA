@@ -88,6 +88,7 @@ class DimacsGraph
   def process_node_line(line)
     line_error "Invalid node line" unless line =~ /^n\s+(\d+)\s*$/i
     node_id = $1.to_i
+    line_error "Node line seen before problem line" unless problem_node_count
     line_error "Node id exceeds node count (#{problem_node_count})" unless node_id <= problem_node_count
     output_node node_id
   end
@@ -113,6 +114,7 @@ class DimacsGraph
   def process_arc_line(line)
     line_error "Invalid arc line" unless match = %r{^a\s+(\d+)\s+(\d+)\s+([0-9.]+)\s*$}.match(line)
     source, dest, weight = match[1].to_i, match[2].to_i, match[3]
+    line_error "Arc line seen before problem line" unless problem_node_count
     line_error "Source node is outside max node range (#{problem_node_count})" if source > problem_node_count
     line_error "Destination node is outside max node range (#{problem_node_count})" if dest > problem_node_count
 
@@ -210,49 +212,49 @@ describe "parsing a DIMACS assignment problem graph file" do
   end
 
   it "fails if the file does not have a problem line" do
-    assert_raises do
+    assert_raises RuntimeError do
       parser = DimacsGraph.parse fixture_file("no-problem-line.txt"), @basedir
     end
   end
 
   it "fails if the file does not have an assignment problem line" do
-    assert_raises do
+    assert_raises RuntimeError do
       parser = DimacsGraph.parse fixture_file("invalid-problem-line.txt"), @basedir
     end
   end
 
   it "fails if the file contains an unrecognizeable line" do
-    assert_raises do
+    assert_raises RuntimeError do
       parser = DimacsGraph.parse fixture_file("unrecognizeable-line.txt"), @basedir
     end
   end
 
   it "fails if the file does not have the number of arcs listed in the problem line" do
-    assert_raises do
+    assert_raises RuntimeError do
       parser = DimacsGraph.parse fixture_file("arc-count-too-low.txt"), @basedir
     end
 
-    assert_raises do
+    assert_raises RuntimeError do
       parser = DimacsGraph.parse fixture_file("arc-count-too-high.txt"), @basedir
     end
   end
 
   it "fails if the file does not mention all the nodes listed in the problem line" do
-    assert_raises do
+    assert_raises RuntimeError do
       parser = DimacsGraph.parse fixture_file("node-count-too-low.txt"), @basedir
     end
 
-    assert_raises do
+    assert_raises RuntimeError do
       parser = DimacsGraph.parse fixture_file("node-count-too-high.txt"), @basedir
     end
   end
 
   it "fails if the file mentions a node higher than the count in the problem line" do
-    assert_raises do
+    assert_raises RuntimeError do
       parser = DimacsGraph.parse fixture_file("node-with-index-too-high-on-node-list.txt"), @basedir
     end
 
-    assert_raises do
+    assert_raises RuntimeError do
       parser = DimacsGraph.parse fixture_file("node-with-index-too-high-on-arc-list.txt"), @basedir
     end
   end
