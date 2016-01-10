@@ -143,7 +143,7 @@ class DimacsGraph
   end
 
   def high_cost
-    1000000
+    1000000000
   end
 
   def augmented_node(node_id, &block)
