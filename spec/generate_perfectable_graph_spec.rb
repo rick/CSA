@@ -6,6 +6,7 @@ class DimacsGraph
   attr_reader :problem_node_count, :problem_arc_count
   attr_reader :final_node_count, :final_arc_count
   attr_reader :seen_nodes, :seen_arcs
+  attr_reader :results_path
 
   def self.parse(graph_file, output_dir)
     parser = self.new
@@ -17,8 +18,8 @@ class DimacsGraph
   end
 
   def parse(graph_file, output_dir)
-    @file       = graph_file
-    @output_dir = output_dir
+    raise ArgumentError, "parse expects a graph file and an output path" unless graph_file && output_dir
+    @file, @output_dir = graph_file, output_dir
 
     File.open(file) do |f|
       f.each_line do |line|
@@ -188,16 +189,26 @@ class DimacsGraph
     raise "Seen node count [#{seen_arcs}] does not match computed [#{final_arc_count}]" unless seen_arcs == final_arc_count
   end
 
+  def close_output_files
+    problem_output_file.close
+    node_output_file.close
+    arc_output_file.close
+  end
+
   def merge_output_files
-    # TODO:
-    # - close output files
-    # - merge problem+comments, node line, arc line files into one output file
-    # - return output file name
+    @results_path = File.join(output_dir, "augmented_graph.txt")
+    close_output_files
+    system "cat #{problem_output_path} #{node_output_path} #{arc_output_path} > #{results_path}" # NOTE: not particularly portable
+    results_path
   end
 end
 
 def fixture_file(path)
   File.expand_path(File.join(File.dirname(__FILE__), "fixtures", path))
+end
+
+def normalize_graph_file(contents)
+  contents.lines.map(&:chomp).map {|l| l.gsub!(/\s+/, ' ') }.sort
 end
 
 describe "parsing a DIMACS assignment problem graph file" do
@@ -268,9 +279,11 @@ describe "parsing a DIMACS assignment problem graph file" do
     parser = DimacsGraph.parse fixture_file("10-node-graph.txt"), @basedir
     assert_equal 20, parser.problem_arc_count
   end
-end
 
-describe "writing a DIMACS file for an augmented graph with perfect matching" do
-  it "generates the correct file"
-  # TODO: there probably has to be some sorting or something to make this work right
+  it "generates the correct file" do
+    parser = DimacsGraph.parse fixture_file("3-node-graph.txt"), @basedir
+    expected = normalize_graph_file(File.read(fixture_file("3-node-graph-augmented.txt")))
+    actual   = normalize_graph_file(File.read(parser.results_path))
+    assert_equal expected, actual, "Result path did not match"
+  end
 end
