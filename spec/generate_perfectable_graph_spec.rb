@@ -1,11 +1,10 @@
 require "minitest/autorun"
+require "tmpdir"
 
 class DimacsGraph
-  attr_reader :file
-  attr_reader :output_dir
-  attr_reader :line_count
-  attr_reader :problem_node_count
-  attr_reader :problem_arc_count
+  attr_reader :file, :output_dir, :current_line, :line_count
+  attr_reader :problem_node_count, :problem_arc_count
+  attr_reader :final_node_count, :final_arc_count
 
   def self.parse(graph_file, output_dir)
     parser = self.new
@@ -16,18 +15,13 @@ class DimacsGraph
   def initialize
   end
 
-  def increment_line_count
-    @line_count ||= 0
-    @line_count += 1
-  end
-
   def parse(graph_file, output_dir)
     @file       = graph_file
     @output_dir = output_dir
 
     File.open(file) do |f|
       f.each_line do |line|
-        increment_line_count
+        track_line line
 
         case line
         when /^a\s+/i
@@ -39,7 +33,7 @@ class DimacsGraph
         when /^p\s+/i
           process_problem_line line
         else
-          raise "Unrecognized line (@ #{line_count}): #{line} in input file [#{file}]"
+          line_error "Unrecognized line"
         end
       end
     end
@@ -48,56 +42,128 @@ class DimacsGraph
     merge_output_files
   end
 
-  def process_arc_line(line)
-    # TODO:
-    # - validate format of line
-    # - fail if source or dest node #s are greater than problem line node count
-    # - open up node line output file if not open
-    # - open up arc line output file if not open
-    # - add original arc line to output arc list (s -> d), with original weight w
-    # - if source node (s) hasn't been seen as an augmented node already:
-    #   - do not add s to the output node source list (because it is a dest)
-    #   - add a high-cost arc from source (s) to augmented dest (s+n): s -> s+n
-    # - if dest node (d) hasn't been seen as an augmented node (d+n) already:
-    #   - add d to the output node source list as an augmented node (d+n)
-    #   - add a high-cost arc from augmented node (d+n) to original dest node (d): d+n -> d
-    # - add an arc from augmented source (d+n) to augmented dest (s+n): d+n -> s+n, with weight w
+  def line_error(message)
+    raise "#{message} at [#{file}:#{line_count}]: [#{current_line}]"
   end
 
-  def node_output_path
-    File.join(output_dir, "node_output.txt")
+  def track_line(line)
+    @current_line = line
+    @line_count ||= 0
+    @line_count += 1
   end
 
-  def node_output_file
-    @node_output_file ||= File.open(node_output_path, 'w')
+  def process_problem_line(line)
+    line_error "Multiple problem lines seen" if seen_problem_line?
+    line_error "Invalid problem line" unless line =~ /^p\s+asn\s+(\d+)\s+(\d+)\s*$/i
+
+    @problem_node_count, @problem_arc_count = $1.to_i, $2.to_i
+    @seen_problem_line = true
+
+    output_problem
   end
 
-  def process_node_line(line)
-    raise "Invalid node line at line #{line_count}: [#{line}]" unless line =~ /^n\s+(\d+)\s*$/i
-    node_id = $1.to_i
-    raise "Node id exceeds node count (#{problem_node_count}) at line #{line_count}: [#{line}]" unless node_id <= problem_node_count
-    node_output_file.puts "n #{node_id}"
+  def output_problem
+    @final_node_count = 2 * problem_node_count
+    @final_arc_count  = 2 * problem_arc_count + problem_node_count
+    problem_output_file.puts "p asn #{final_node_count} #{final_arc_count}"
   end
 
-  def process_comment_line(line)
-    # TODO:
-    # - open up problem definition / comments file if necessary
-    # - handle comment lines by writing them to the problem/comment line file
+  def problem_output_file
+    @problem_output_file ||= File.open(problem_output_path, 'w')
+  end
+
+  def problem_output_path
+    File.join(output_dir, "problem_output.txt")
   end
 
   def seen_problem_line?
     !!@seen_problem_line
   end
 
-  def process_problem_line(line)
-    raise "Multiple problem lines seen at line #{line_count}: [#{line}]" if seen_problem_line?
-    raise "Invalid problem line: [#{line}]" unless line =~ /^p\s+asn\s+(\d+)\s+(\d+)\s*$/i
-    @problem_node_count, @problem_arc_count = $1.to_i, $2.to_i
-    @seen_problem_line = true
+  def process_comment_line(line)
+    problem_output_file.puts line
+  end
 
-    # TODO:
-    # - open up problem definition / comments file if necessary
-    # - write the future correct problem line
+  def process_node_line(line)
+    line_error "Invalid node line" unless line =~ /^n\s+(\d+)\s*$/i
+    node_id = $1.to_i
+    line_error "Node id exceeds node count (#{problem_node_count})" unless node_id <= problem_node_count
+    output_node node_id
+  end
+
+  def output_node(node_id)
+    node_output_file.puts "n #{node_id}"
+  end
+
+  def node_output_file
+    @node_output_file ||= File.open(node_output_path, 'w')
+  end
+
+  def node_output_path
+    File.join(output_dir, "node_output.txt")
+  end
+
+  def process_arc_line(line)
+    line_error "Invalid arc line" unless match = %r{^a\s+(\d+)\s+(\d+)\s+([0-9.]+)\s*$}.match(line)
+    source, dest, weight = match[1].to_i, match[2].to_i, match[3]
+    line_error "Source node is outside max node range (#{problem_node_count})" if source > problem_node_count
+    line_error "Destination node is outside max node range (#{problem_node_count})" if dest > problem_node_count
+
+    # add original arc line to output arc list (s -> d), with original weight w
+    output_arc source, dest, weight
+
+    # if source has not been mirrored as an augmented node yet
+    augmented_node(source + problem_node_count) do # add (source+n) as a known augmented node
+      # do not add (source+n) to the output node source list (because it is only a destination)
+      # add a high-cost arc from source to augmented source: source -> source + n
+      output_arc source, source + problem_node_count, high_cost
+    end
+
+    # if dest has not been mirrored as an augmented node yet
+    augmented_node(dest + problem_node_count) do  # add (dest+n) as a known augmented node
+      # add (dest+n) to the output source list
+      output_node dest + problem_node_count
+
+      # add a high-cost arc from augmented node (d+n) to original dest node (d): d+n -> d
+      output_arc dest + problem_node_count, dest, high_cost
+    end
+
+    # add an arc from augmented source (dest+n) to augmented dest (source+n)
+    output_arc dest + problem_node_count, source + problem_node_count, weight
+  end
+
+  def high_cost
+    1000000
+  end
+
+  def augmented_node(node_id, &block)
+    return if is_known_augmented_node? node_id
+    register_augmented_node node_id
+    yield if block_given?
+  end
+
+  def is_known_augmented_node?(node_id)
+    known_augmented_nodes.has_key?(node_id)
+  end
+
+  def register_augmented_node(node_id)
+    known_augmented_nodes[node_id] = true
+  end
+
+  def known_augmented_nodes
+    @known_augmented_nodes ||= {}
+  end
+
+  def output_arc(source, dest, weight)
+    arc_output_file.puts "a #{source} #{dest} #{weight}"
+  end
+
+  def arc_output_file
+    @arc_output_file ||= File.open(arc_output_path, 'w')
+  end
+
+  def arc_output_path
+    File.join(output_dir, "arc_output.txt")
   end
 
   def validate_parsed_file
@@ -120,7 +186,7 @@ end
 
 describe "parsing a DIMACS assignment problem graph file" do
   before do
-    @basedir = '/tmp'
+    @basedir = Dir.mktmpdir
   end
 
   it "fails if the specified file cannot be read" do
