@@ -208,7 +208,7 @@ def fixture_file(path)
 end
 
 def normalize_graph_file(contents)
-  contents.lines.map {|l| l.chomp.gsub(/\s+/, ' ') }.sort
+  contents.lines.map {|l| l.chomp.gsub(/\s+/, ' ') }.sort.join("\n")
 end
 
 describe "parsing a DIMACS assignment problem graph file" do
@@ -281,7 +281,7 @@ describe "parsing a DIMACS assignment problem graph file" do
   end
 
   it "generates the correct file" do
-    [ "3-node-graph", "5-node-fan-graph" ].each do |path|
+    [ "3-node-graph", "5-node-fan-graph", "10-node-graph" ].each do |path|
       input_file    = fixture_file("#{path}.txt")
       expected_file = fixture_file("#{path}-augmented.txt")
 
