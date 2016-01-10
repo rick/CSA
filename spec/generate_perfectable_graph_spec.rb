@@ -262,10 +262,10 @@ describe "parsing a DIMACS assignment problem graph file" do
     assert_equal 10, parser.problem_node_count
   end
 
-  # it "can return the correct number of arcs from the file's problem line" do
-  #   parser = DimacsGraph.parse
-  #   assert_equal 20, parser.problem_arc_count
-  # end
+  it "can return the correct number of arcs from the file's problem line" do
+    parser = DimacsGraph.parse fixture_file("10-node-graph.txt"), @basedir
+    assert_equal 20, parser.problem_arc_count
+  end
 end
 
 describe "writing a DIMACS file for an augmented graph with perfect matching" do
