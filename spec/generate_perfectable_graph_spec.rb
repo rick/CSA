@@ -5,6 +5,7 @@ class DimacsGraph
   attr_reader :file, :output_dir, :current_line, :line_count
   attr_reader :problem_node_count, :problem_arc_count
   attr_reader :final_node_count, :final_arc_count
+  attr_reader :seen_nodes, :seen_arcs
 
   def self.parse(graph_file, output_dir)
     parser = self.new
@@ -92,6 +93,7 @@ class DimacsGraph
   end
 
   def output_node(node_id)
+    register_seen_node node_id
     node_output_file.puts "n #{node_id}"
   end
 
@@ -101,6 +103,11 @@ class DimacsGraph
 
   def node_output_path
     File.join(output_dir, "node_output.txt")
+  end
+
+  def register_seen_node(node_id)
+    @seen_nodes ||= 0
+    @seen_nodes += 1
   end
 
   def process_arc_line(line)
@@ -138,6 +145,7 @@ class DimacsGraph
 
   def augmented_node(node_id, &block)
     return if is_known_augmented_node? node_id
+    register_seen_node node_id
     register_augmented_node node_id
     yield if block_given?
   end
@@ -155,7 +163,13 @@ class DimacsGraph
   end
 
   def output_arc(source, dest, weight)
+    register_seen_arc source, dest, weight
     arc_output_file.puts "a #{source} #{dest} #{weight}"
+  end
+
+  def register_seen_arc(source, dest, weight)
+    @seen_arcs ||= 0
+    @seen_arcs += 1
   end
 
   def arc_output_file
@@ -167,9 +181,9 @@ class DimacsGraph
   end
 
   def validate_parsed_file
-    # TODO: exactly one problem line with correct value
-    # TODO: final node counts
-    # TODO: final arc counts
+    raise "No problem line found" unless seen_problem_line?
+    raise "Seen node count [#{seen_nodes}] does not match computed [#{final_node_count}]" unless seen_nodes == final_node_count
+    raise "Seen node count [#{seen_arcs}] does not match computed [#{final_arc_count}]" unless seen_arcs == final_arc_count
   end
 
   def merge_output_files
