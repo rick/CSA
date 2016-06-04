@@ -2,6 +2,8 @@
 
 This is a mirror of CSA version 1.2. This tooling is a solver for weighted bipartite matchings. It is useful for finding solutions to instances of [the Assignment Problem](https://en.wikipedia.org/wiki/Assignment_problem).
 
+If you are intended to use this, you will probably also be interested in the add-on [CSA-tools](https://github.com/rick/CSA-tools) library.
+
 ### Usage
 
 Familiarity with the original publication (see "Resources" below) is useful. There are a couple of scripts to help with experimenting with things.
@@ -55,7 +57,7 @@ $ wc -l /tmp/flow.txt
 
 ### Notes
 
- - CSA presumes that the graph provided contains a perfect matching. If no such matching exists the solver will either not terminate, or can produce a non-optimal matching. Conjecture: It should suffice to augment graphs to complete bipartite graphs, with added edges having sufficiently large weights as to not be selected in a matching.
+ - CSA presumes that the graph provided contains a perfect matching. If no such matching exists the solver will either not terminate, or can produce a non-optimal matching. The [CSA-tools](https://github.com/rick/CSA-tools) repo contains tooling to automate the process of converting arbitrary weighted bipartite graphs into augmented graphs which always have a perfect matching (as well as running the CSA solver, and reducing the resulting perfect matching to a matching on the original graph.)
  - There appears to have been a CSA-1.2.1 linked from the [network optimization library page](http://www.avglab.com/andrew/soft.html) but this code seems to have gone missing. Version 1.2 is mirrored here.
  - It appears that the CS2 software is [also mirrored by another individual on GitHub](https://github.com/iveney/cs2) (note this is not "version 2" of CSA, but a different tool).
 
