@@ -82,9 +82,9 @@ def create_data(dir, template)
 end
 
 def run_solver(dir, data)
-  puts "\nRunning CSA-Q solver on data file [#{data}]:\n\n"
-
-  system "cd #{dir} && #{solver_path} < #{data}"
+  command = "cd #{dir} && #{solver_path} < #{data}"
+  puts "\nRunning CSA-Q solver on data file [#{data}]:\n\n#{command}\n\n"
+  system command
   File.join(dir, "output.flow")
 end
 
